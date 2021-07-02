@@ -4,3 +4,5 @@ MOVIE RECOMMENDATION SYSTEM USING MOVIE RATINGS
                     1)Samanika Andrew R195870C
                     2)Elton Makomo R195929Y 
                     3)Calvin Mhongwe  R195866Z 
+
+NB: run the putlocker model first before commencind to use the apllication to get uptodate results
