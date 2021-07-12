@@ -1,5 +1,4 @@
 import streamlit as st
-import webbrowser
 import pandas as pd
 import numpy as np
 import pickle
@@ -218,10 +217,10 @@ def print_row(possible_likes,index_carry=0):
 
     index_carry=index_carry+max_for_row
     return index_carry
+
 def main(val=None):
     #load model
     loaded_model = pickle.load(open("model.pkl", "rb"))
-
     #create review dataset
     review_df=pd.read_csv("main_movie_ratings.csv")
     review_df=review_df.drop('movie_id',axis=1).reset_index()
@@ -337,7 +336,6 @@ def main(val=None):
             suggestions_df['like']=pred
             #st.write(suggestions_df)
             #first five
-
             st.write(" ")
             st.write(" ")
             st.title("YOU MIGHT ALSO LIKE")
@@ -365,16 +363,26 @@ def main(val=None):
                 st.write(print_row(possible_likes,index_carry) )
             except IndexError:
                 st.write("")
-
-            #index_carry=index_carry+10
-            #st.write(print_row(possible_likes,index_carry) )
-            #index_carry=index_carry+15
-            #st.write(print_row(possible_likes,index_carry) )
-            #index_carry=index_carry+20
-            #st.write(print_row(possible_likes,index_carry) )
-            #index_carry=index_carry+25
-            #st.write(print_row(possible_likes,index_carry) )
-
+            try:
+                index_carry=index_carry+10
+                st.write(print_row(possible_likes,index_carry))
+            except IndexError:
+                st.write("")
+            try:
+                index_carry=index_carry+15
+                st.write(print_row(possible_likes,index_carry))
+            except IndexError:
+                st.write("")
+            try:
+                index_carry=index_carry+20
+                st.write(print_row(possible_likes,index_carry) )
+            except IndexError:
+                st.write("")
+            try:
+                index_carry=index_carry+25
+                st.write(print_row(possible_likes,index_carry) )
+            except IndexError:
+                st.write("")
         except (ConnectionError):
             st.warning("dear user , please check your Internet Connection to view results :(")
             st.stop()
