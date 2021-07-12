@@ -6,3 +6,9 @@ MOVIE RECOMMENDATION SYSTEM USING MOVIE RATINGS
                     3)Calvin Mhongwe  R195866Z 
 
 NB: run the putlocker model first before commencind to use the apllication to get uptodate results
+
+This is a movie reccomendation System based on data acquired from online sites together with user ratings on the movie sets
+
+Application requirements:
+-streamlit library
+-IPython libraries
