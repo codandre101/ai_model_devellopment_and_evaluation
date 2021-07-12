@@ -48,78 +48,85 @@ def scrape_selected_movie(url):
     release_=container_soup.find("div",class_="mvici-right").find("a",rel="tag").text
     release_="Release: "+release_
     return image_url, title_, synopsis_,genre_,directors_,actors_,duration_,quality_,release_
+
 def print_trending(possible_likes,index_carry=0):
     colA,colB, colC,colD,colE = st.beta_columns([1,1,1,1,1])
     #for place 1 colA
     start=index_carry+1
     max_for_row=5
-    for col in range(start,max_for_row+1):
+    end=max_for_row+index_carry
+    for col in range(start,end+1):
         row=col-1
         scrape_link=possible_likes.iloc[row,2]
         recommend_rating=possible_likes.iloc[row,3]
-        if col==1:
+        if col==(index_carry+1):
             try:
                 image_url, title_, synopsis_,genre_,directors_,actors_,duration_,quality_,release_=scrape_selected_movie(scrape_link)
                 #displaying image
                 if(image_url is not None):
                     colA.image(image_url)
-                    colA.write("TITLE:{}".format(title_))
-                    colA.write(recommend_rating)
-                    colA.write(release_)
                 else:
-                    row=row+1
+                    pass
+                btnA=colA.button("TITLE:{}".format(title_),key="submit_title",help="copy title in search bar to view movie")
+                if btnA==True:
+                    main()
+                colA.write(release_)
             except:
                 pass
-        elif col==2:
+        elif col==(index_carry+2):
             try:
                 image_url, title_, synopsis_,genre_,directors_,actors_,duration_,quality_,release_=scrape_selected_movie(scrape_link)
                 #displaying image
                 if(image_url is not None):
                     colB.image(image_url)
-                    colB.write("TITLE:{}".format(title_))
-                    colB.write(recommend_rating)
-                    colB.write(release_)
                 else:
-                    row=row+1
+                    pass
+                btnB=colB.button("TITLE:{}".format(title_),key="submit_title",help="copy title in search bar to view movie")
+                if btnB==True:
+                    main()
+                colB.write(release_)
             except:
                 pass
-        elif col==3:
+        elif col==(index_carry+3):
             try:
                 image_url, title_, synopsis_,genre_,directors_,actors_,duration_,quality_,release_=scrape_selected_movie(scrape_link)
                 #displaying image
                 if(image_url is not None):
                     colC.image(image_url)
-                    colC.write("TITLE:{}".format(title_))
-                    colC.write(recommend_rating)
-                    colC.write(release_)
                 else:
-                    row=row+1
+                    pass
+                btnC=colC.button("TITLE:{}".format(title_),key="submit_title",help="copy title in search bar to view movie")
+                if btnC==True:
+                    main()
+                colC.write(release_)
             except:
                 pass
-        elif col==4:
+        elif col==(index_carry+4):
             try:
                 image_url, title_, synopsis_,genre_,directors_,actors_,duration_,quality_,release_=scrape_selected_movie(scrape_link)
                 #displaying image
                 if(image_url is not None):
                     colD.image(image_url)
-                    colD.write("TITLE:{}".format(title_))
-                    colD.write(recommend_rating)
-                    colD.write(release_)
                 else:
-                    row=row+1
+                    pass
+                btnD=colD.button("TITLE:{}".format(title_),key="submit_title",help="copy title in search bar to view movie")
+                if btnD==True:
+                    main()
+                colD.write(release_)
             except:
                 pass
-        elif col==5:
+        elif col==(index_carry+5):
             try:
                 image_url, title_, synopsis_,genre_,directors_,actors_,duration_,quality_,release_=scrape_selected_movie(scrape_link)
                 #displaying image
                 if(image_url is not None):
                     colE.image(image_url)
-                    colE.write("TITLE:{}".format(title_))
-                    colE.write(recommend_rating)
-                    colE.write(release_)
                 else:
-                    row=row+1
+                    pass
+                btnE=colE.button("TITLE:{}".format(title_),key="submit_title",help="copy title in search bar to view movie")
+                if btnE==True:
+                    main()
+                colE.write(release_)
             except:
                 pass
         else:
@@ -233,14 +240,13 @@ def main(val=None):
     selection_options.replace({'_':' '},regex=True,inplace=True)
     selection_options=selection_options.join(pd.DataFrame(review_df['title']))
 
-    st.write("""
+    st.title("""
     # MOVIE RECOMMENDATION SYSTEM
     """)
 
     local_css("styles.css")
     remote_css('https://fonts.googleapis.com/icon?family=Material+Icons')
     icon("search")
-
     #creates set of inputs requires selection_options
     col1, col2 = st.beta_columns([3, 1.5])
 
@@ -274,6 +280,9 @@ def main(val=None):
     suggestion_status=[]
     #onclick give recommendations and the movie itself
     if button_clicked== True:
+        st.write("")
+        st.title("TRENDING MOVIES")
+        st.write(print_trending(review_df))
         #generate recommendations showing the overall rating of each recommended movie
         selected_options=pd.DataFrame(selection_options.loc[ selection_options['select_option']==suggestion_select ] )
         selected_options=selected_options.merge(review_df,on='title')
@@ -281,10 +290,13 @@ def main(val=None):
         url=selected_options.iloc[0,3]
         rating=selected_options.iloc[0,-1]
         rating_= "Rating: {}".format(rating)
-        col3, col4 = st.beta_columns([1,2])
         with st.spinner('Establishing Connection , make sure you have an Internet Connection :)'):
             time.sleep(5)
+        st.write("")
+        st.write("")
+        st.title("SEARCH RESULT")
         #print the suggestion_selections details
+        col3, col4 = st.beta_columns([1,2])
         try:
             #scrape movie details
             image_url, title_, synopsis_,genre_,directors_,actors_,duration_,quality_,release_=scrape_selected_movie(url)
@@ -338,7 +350,7 @@ def main(val=None):
             #first five
             st.write(" ")
             st.write(" ")
-            st.title("YOU MIGHT ALSO LIKE")
+            st.title("  ***YOU MIGHT ALSO LIKE***")
             st.write(" ")
             st.write(" ")
             reccommendations_=suggestions_df.loc[ suggestions_df['like']==1]
